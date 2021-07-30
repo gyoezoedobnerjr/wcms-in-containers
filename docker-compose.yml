@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   cmsdb:
-    image: mariadb
+    image: $dbEngine
     volumes:
       - cmsdb_data:/var/lib/mysql
     restart: always
@@ -14,15 +14,15 @@ services:
   joomla:
     depends_on:
       - cmsdb
-    image: joomla
+    image: $wcmsName
     ports:
-      - "8000:80"
+      - "${wcmsPort}:80"
     restart: always
     environment:
-      JOOMLA_DB_HOST: cmsdb:3306
-      JOOMLA_DB_USER: joomla
-      JOOMLA_DB_PASSWORD: joomla
-      JOOMLA_DB_NAME: joomla
+      ${wcmsAllCapsName}_DB_HOST: cmsdb:3306
+      ${wcmsAllCapsName}_DB_USER: joomla
+      ${wcmsAllCapsName}_DB_PASSWORD: joomla
+      ${wcmsAllCapsName}_DB_NAME: joomla
 
 volumes:
     cmsdb_data:
